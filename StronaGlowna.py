@@ -2,6 +2,8 @@ from tkinter import *
 from tkinter import ttk 
 import tkintermapview
 
+from PlacowkaBanku import PlacowkaBanku
+
 
 class StronaGlowna:
     def __init__(self):
@@ -9,7 +11,7 @@ class StronaGlowna:
         self.root = Tk()
         self.root.resizable(False, False)
         self.root.title("Projekt banku")
-        self.root.geometry("1024x760")
+        self.root.geometry("1250x760")
 
         self.filtr_placowek = IntVar()
 
@@ -49,21 +51,68 @@ class StronaGlowna:
         self.wyswietlanie_obiektow.grid(row=1, column=0, columnspan=4)
 
 
-        self.medu_wyboru_edycji()
+        self.menu_wyboru_edycji()
         self.root.mainloop()
 
-    def medu_wyboru_edycji(self):
+
+    def menu_wyboru_edycji(self):
         self.ramka_dla_edycji_obiektow.destroy()
         self.ramka_dla_edycji_obiektow = Frame(self.root) 
-        self.ramka_dla_edycji_obiektow.grid(row=0, column=2, padx=10)
+        self.ramka_dla_edycji_obiektow.grid(row=0, column=2, padx=160)
+
         # lista obiektów sekcji edycji
         przycisk_do_pokazania_na_mapie = Button(self.ramka_dla_edycji_obiektow, text="Pokaż na mapie", width=25)
-        przycisk_do_dodawania_obiektu = Button(self.ramka_dla_edycji_obiektow, text="Dodaj nowy obiekt", width=25)
-        przycisk_do_usuwania_obiektu = Button(self.ramka_dla_edycji_obiektow, text="Usuń kierowce", width=25)
-        przycisk_do_edycji_obiektu = Button(self.ramka_dla_edycji_obiektow, text="Edytuj kierowce", width=25)
+        przycisk_do_dodawania_obiektu = Button(self.ramka_dla_edycji_obiektow, text="Dodaj nowy obiekt", 
+                                               width=25, command=self.dodaj_nowy_obiekt)
+        przycisk_do_usuwania_obiektu = Button(self.ramka_dla_edycji_obiektow, text="Usuń obiekt", width=25)
+        przycisk_do_edycji_obiektu = Button(self.ramka_dla_edycji_obiektow, text="Edytuj obiekt", 
+                                            width=25, command=self.edytuj_obiekt)
 
         przycisk_do_pokazania_na_mapie.grid(row=0, column=0, pady=7)
         przycisk_do_dodawania_obiektu.grid(row=1, column=0, pady=7)
         przycisk_do_usuwania_obiektu.grid(row=2, column=0, pady=7)
         przycisk_do_edycji_obiektu.grid(row=3, column=0, pady=7)
         
+
+
+    def dodaj_nowy_obiekt(self):
+        match self.wybor_aktualnych_obiektow.get():
+            case "Placówki Bankowe":
+                self.ramka_dla_edycji_obiektow = PlacowkaBanku(self.odswiez_widok).menu_edycji(self.ramka_dla_edycji_obiektow, self.root)
+            case "Pracownicy":
+                print("2")
+            case "Klienci":
+                print("3")
+            case default:
+                print("Brak takiej opcji")
+    
+
+    def edytuj_obiekt(self):
+        match self.wybor_aktualnych_obiektow.get():
+            case "Placówki Bankowe":
+                for aktualny_obiekt in PlacowkaBanku.lista_placowek_banku:
+                    if f"{aktualny_obiekt.nazwa_placowki_banku}, {aktualny_obiekt.lokalizacja_placowki}" == \
+                                                                    self.wyswietlanie_obiektow.get(ACTIVE):
+                        aktualny_obiekt.menu_edycji(self.ramka_dla_edycji_obiektow, self.root)
+            case "Pracownicy":
+                print("2")
+            case "Klienci":
+                print("3")
+            case default:
+                print("Brak takiej opcji")
+
+
+    def odswiez_widok(self):
+        self.wyswietlanie_obiektow.delete(0, END)
+        match self.wybor_aktualnych_obiektow.get():
+            case "Placówki Bankowe":
+                for idx, aktualny_obiekt in enumerate(PlacowkaBanku.lista_placowek_banku):
+                    self.wyswietlanie_obiektow.insert(idx, 
+                                                      f"{aktualny_obiekt.nazwa_placowki_banku}, {aktualny_obiekt.lokalizacja_placowki}")
+            case "Pracownicy":
+                print("2")
+            case "Klienci":
+                print("3")
+            case default:
+                print("Brak takiej opcji")
+        self.menu_wyboru_edycji()

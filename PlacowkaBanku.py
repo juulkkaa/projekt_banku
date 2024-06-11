@@ -42,3 +42,14 @@ class PlacowkaBanku:
             self.pole_lokalizacji_placowki.insert(0, self.lokalizacja_placowki)
 
         return ramka_dla_edycji_obiektow
+    
+
+    def zapisz_zmiany(self):
+        self.nazwa_placowki_banku = self.pole_nazwy_placowki.get()
+        self.lokalizacja_placowki = self.pole_lokalizacji_placowki.get()
+
+        if self not in PlacowkaBanku.lista_placowek_banku:
+            PlacowkaBanku.lista_placowek_banku.append(self)
+
+        self.odswiez_widok()
+        
