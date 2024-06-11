@@ -1,5 +1,7 @@
 from tkinter import *
 
+from StronaGlowna import StronaGlowna
+
 class Logowanie:
     def __init__(self):
 
@@ -36,7 +38,6 @@ class Logowanie:
         self.opis_blednego_logowania.grid(row=5, column=0)
 
         self.root.mainloop()
-        return "AAAA"
     
 
     def sprawdzenie_danych_logownaia(self):
@@ -46,5 +47,6 @@ class Logowanie:
             self.opis_blednego_logowania.config(text="Błedy login lub hasło")
         else:
             self.root.destroy()
+            StronaGlowna()
 
 

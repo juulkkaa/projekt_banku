@@ -6,21 +6,20 @@ import tkintermapview
 class StronaGlowna:
     def __init__(self):
         # GUI
-        root = Tk()
-        root.resizable(False, False)
-        root.title("Projekt banku")
-        root.geometry("1024x760")
+        self.root = Tk()
+        self.root.resizable(False, False)
+        self.root.title("Projekt banku")
+        self.root.geometry("1024x760")
 
         self.filtr_placowek = IntVar()
 
-        ramka_dla_wyboru_wyswietlanych_elemntow = Frame(root)        
-        ramka_dla_wyswietlanych_elementow = Frame(root)        
-        ramka_dla_edycji_obiektow = Frame(root)        
-        ramka_dla_mapy = Frame(root)
+        ramka_dla_wyboru_wyswietlanych_elemntow = Frame(self.root)        
+        ramka_dla_wyswietlanych_elementow = Frame(self.root)        
+        self.ramka_dla_edycji_obiektow = Frame(self.root)    
+        ramka_dla_mapy = Frame(self.root)
 
         ramka_dla_wyboru_wyswietlanych_elemntow.grid(row=0, column=0, padx=15)
         ramka_dla_wyswietlanych_elementow.grid(row=0, column=1)
-        ramka_dla_edycji_obiektow.grid(row=0, column=2, padx=10)
         ramka_dla_mapy.grid(row=1, column=0, columnspan=3)
 
         # lista obiektów sekcji filtrow
@@ -49,15 +48,22 @@ class StronaGlowna:
         label_tytul_sekcji_obiektow.grid(row=0, column=0, columnspan=4)
         self.wyswietlanie_obiektow.grid(row=1, column=0, columnspan=4)
 
+
+        self.medu_wyboru_edycji()
+        self.root.mainloop()
+
+    def medu_wyboru_edycji(self):
+        self.ramka_dla_edycji_obiektow.destroy()
+        self.ramka_dla_edycji_obiektow = Frame(self.root) 
+        self.ramka_dla_edycji_obiektow.grid(row=0, column=2, padx=10)
         # lista obiektów sekcji edycji
-        przycisk_do_pokazania_na_mapie = Button(ramka_dla_edycji_obiektow, text="Pokaż na mapie", width=25)
-        przycisk_do_dodawania_obiektu = Button(ramka_dla_edycji_obiektow, text="Dodaj nowy obiekt", width=25)
-        przycisk_do_usuwania_obiektu = Button(ramka_dla_edycji_obiektow, text="Usuń kierowce", width=25)
-        przycisk_do_edycji_obiektu = Button(ramka_dla_edycji_obiektow, text="Edytuj kierowce", width=25)
+        przycisk_do_pokazania_na_mapie = Button(self.ramka_dla_edycji_obiektow, text="Pokaż na mapie", width=25)
+        przycisk_do_dodawania_obiektu = Button(self.ramka_dla_edycji_obiektow, text="Dodaj nowy obiekt", width=25)
+        przycisk_do_usuwania_obiektu = Button(self.ramka_dla_edycji_obiektow, text="Usuń kierowce", width=25)
+        przycisk_do_edycji_obiektu = Button(self.ramka_dla_edycji_obiektow, text="Edytuj kierowce", width=25)
 
         przycisk_do_pokazania_na_mapie.grid(row=0, column=0, pady=7)
         przycisk_do_dodawania_obiektu.grid(row=1, column=0, pady=7)
         przycisk_do_usuwania_obiektu.grid(row=2, column=0, pady=7)
         przycisk_do_edycji_obiektu.grid(row=3, column=0, pady=7)
         
-        root.mainloop()
